@@ -19,6 +19,18 @@ type AuthKeyData = {
 
 type LoginStatus = "idle" | "pending" | "success" | "error";
 
+type Order = {
+  orderId: string;
+  orderStatus: string;
+  displayStatus: string;
+  productName: string;
+  amount: number;
+  createdAt: string;
+  [key: string]: unknown;
+};
+
+type OrderFetchStatus = "idle" | "loading" | "success" | "error";
+
 // ── 工具函数 ──
 
 async function generateKeyFromOpsId(opsId: string): Promise<string> {
@@ -49,6 +61,10 @@ export function AuthKeyView({ visible = true }: Props) {
   const [copied, setCopied] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const unlistenRef = useRef<(() => void) | null>(null);
+
+  const [orderFetchStatus, setOrderFetchStatus] = useState<OrderFetchStatus>("idle");
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [orderError, setOrderError] = useState<string | null>(null);
 
   // 加载已保存的 key
   useEffect(() => {
@@ -138,6 +154,46 @@ export function AuthKeyView({ visible = true }: Props) {
     setLoginStatus("idle");
     setErrorMsg(null);
   }, []);
+
+  const handleFetchOrders = useCallback(async () => {
+    if (!opsId) return;
+    setOrderFetchStatus("loading");
+    setOrderError(null);
+    setOrders([]);
+
+    try {
+      // 通过 Tauri 后端代理请求，避免浏览器跨域限制
+      const raw = await invoke<string>("http_proxy_request", {
+        url: `https://m.ximalaya.com/test`,
+        method: "GET",
+        headers: {
+          accept: "application/json, text/plain, */*",
+          "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
+          // opsId 作为查询身份的标识附加到 Cookie 中
+          cookie: `xm-ops-id=${opsId}`,
+        },
+        timeoutSecs: 15,
+      });
+
+      const result = JSON.parse(raw) as { status: number; body: string };
+      if (result.status < 200 || result.status >= 300) {
+        throw new Error(`接口返回异常状态码：${result.status}`);
+      }
+
+      const data = JSON.parse(result.body) as {
+        ret?: number;
+        data?: { list?: Order[] };
+        [key: string]: unknown;
+      };
+
+      const list: Order[] = data?.data?.list ?? [];
+      setOrders(list);
+      setOrderFetchStatus("success");
+    } catch (e) {
+      setOrderError(`获取订单失败：${e}`);
+      setOrderFetchStatus("error");
+    }
+  }, [opsId]);
 
   if (!visible) return null;
 
@@ -445,6 +501,210 @@ export function AuthKeyView({ visible = true }: Props) {
                 ops-xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx
               </code>
             </div>
+          </div>
+
+          {/* 订单查询区 */}
+          <div
+            className="card"
+            style={{ marginTop: 16, padding: "20px 24px" }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: 12,
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 14,
+                  fontWeight: 500,
+                  color: "var(--text)",
+                }}
+              >
+                订单数据查询
+              </div>
+              <button
+                className="btnPrimary"
+                onClick={handleFetchOrders}
+                disabled={orderFetchStatus === "loading"}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  fontSize: 12,
+                  padding: "6px 14px",
+                }}
+              >
+                {orderFetchStatus === "loading" ? (
+                  <>
+                    <span
+                      style={{
+                        width: 10,
+                        height: 10,
+                        borderRadius: "50%",
+                        border: "2px solid rgba(255,255,255,0.4)",
+                        borderTopColor: "#fff",
+                        display: "inline-block",
+                        animation: "spin 0.8s linear infinite",
+                      }}
+                    />
+                    获取中…
+                  </>
+                ) : (
+                  <>
+                    <IconRefresh size={12} />
+                    获取订单数据
+                  </>
+                )}
+              </button>
+            </div>
+
+            <div
+              style={{
+                fontSize: 12,
+                color: "var(--muted)",
+                marginBottom: 12,
+                lineHeight: 1.6,
+              }}
+            >
+              基于当前 opsId（
+              <code
+                style={{
+                  fontSize: 11,
+                  background: "var(--nav-hover, rgba(0,0,0,0.04))",
+                  padding: "1px 5px",
+                  borderRadius: 3,
+                }}
+              >
+                {opsId}
+              </code>
+              ）通过 Tauri 后端代理请求喜马拉雅订单接口，规避跨域限制。
+            </div>
+
+            {/* 错误提示 */}
+            {orderFetchStatus === "error" && orderError && (
+              <div
+                style={{
+                  padding: "8px 12px",
+                  borderRadius: 6,
+                  background: "rgba(239,68,68,0.08)",
+                  border: "1px solid rgba(239,68,68,0.25)",
+                  color: "#ef4444",
+                  fontSize: 12,
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: 6,
+                  marginBottom: 8,
+                }}
+              >
+                <IconX size={13} style={{ marginTop: 1, flexShrink: 0 }} />
+                <span>{orderError}</span>
+              </div>
+            )}
+
+            {/* 订单列表 */}
+            {orderFetchStatus === "success" && (
+              <>
+                {orders.length === 0 ? (
+                  <div
+                    style={{
+                      textAlign: "center",
+                      padding: "20px 0",
+                      fontSize: 13,
+                      color: "var(--muted)",
+                    }}
+                  >
+                    暂无订单数据
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      borderRadius: 6,
+                      border: "1px solid var(--line, rgba(0,0,0,0.1))",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {/* 表头 */}
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "1fr 2fr 1fr 1fr",
+                        background: "var(--nav-hover, rgba(0,0,0,0.04))",
+                        padding: "8px 12px",
+                        fontSize: 11,
+                        fontWeight: 600,
+                        color: "var(--muted)",
+                        borderBottom: "1px solid var(--line, rgba(0,0,0,0.1))",
+                      }}
+                    >
+                      <span>订单号</span>
+                      <span>商品名称</span>
+                      <span>金额</span>
+                      <span>状态</span>
+                    </div>
+                    {orders.map((order, idx) => (
+                      <div
+                        key={order.orderId ?? idx}
+                        style={{
+                          display: "grid",
+                          gridTemplateColumns: "1fr 2fr 1fr 1fr",
+                          padding: "10px 12px",
+                          fontSize: 12,
+                          color: "var(--text)",
+                          borderBottom:
+                            idx < orders.length - 1
+                              ? "1px solid var(--line, rgba(0,0,0,0.06))"
+                              : "none",
+                          alignItems: "center",
+                        }}
+                      >
+                        <code
+                          style={{
+                            fontSize: 11,
+                            color: "var(--muted)",
+                            wordBreak: "break-all",
+                          }}
+                        >
+                          {order.orderId ?? "-"}
+                        </code>
+                        <span style={{ paddingRight: 8 }}>
+                          {order.productName ?? "-"}
+                        </span>
+                        <span>
+                          {order.amount != null
+                            ? `¥${(order.amount / 100).toFixed(2)}`
+                            : "-"}
+                        </span>
+                        <span
+                          style={{
+                            display: "inline-block",
+                            padding: "2px 8px",
+                            borderRadius: 10,
+                            fontSize: 11,
+                            background: "rgba(34,197,94,0.1)",
+                            color: "#16a34a",
+                          }}
+                        >
+                          {order.displayStatus ?? order.orderStatus ?? "-"}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <div
+                  style={{
+                    marginTop: 8,
+                    fontSize: 11,
+                    color: "var(--muted)",
+                    textAlign: "right",
+                  }}
+                >
+                  共 {orders.length} 条订单
+                </div>
+              </>
+            )}
           </div>
         </>
       )}

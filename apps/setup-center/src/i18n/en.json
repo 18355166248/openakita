@@ -1,6 +1,6 @@
 {
   "brand": {
-    "title": "OpenAkita",
+    "title": "Ximalobster",
     "sub": "Desktop Terminal"
   },
   "sidebar": {
@@ -212,7 +212,7 @@
     "degradedAutoClean": "If the process heartbeat stays stale for ~60s, the system will automatically clean up the hung process.",
     "backendNotRunning": "Backend Service Not Running",
     "backendNotRunningHint": "Chat, IM channels, skills and other features require the backend service. Click the button to start it.",
-    "backendDied": "OpenAkita backend service has stopped",
+    "backendDied": "Ximalobster backend service has stopped",
     "backendDiedDesc": "The backend process has exited. Check logs or restart the service.",
     "stopFailed": "Service is still running. You may need to stop the process manually.",
     "troubleshootTitle": "Troubleshooting",
@@ -271,7 +271,7 @@
     "dataRootTitle": "Data Storage Path",
     "dataRootHint": "Root directory for all workspaces, venv, runtime, etc. Check \"Migrate data\" to preserve existing content when changing.",
     "dataRootCurrent": "Current data directory: {{path}}",
-    "dataRootPlaceholder": "e.g. D:\\MyData\\.openakita",
+    "dataRootPlaceholder": "e.g. D:\\MyData\\.ximalobster",
     "dataRootApply": "Apply",
     "dataRootDefault": "Reset to Default",
     "dataRootMigrate": "Migrate existing data to new path",
@@ -708,7 +708,7 @@
   },
   "welcome": {
     "title": "Setup Guide",
-    "subtitle": "Follow these steps to initialize OpenAkita. Each step guides you through key configurations.",
+    "subtitle": "Follow these steps to initialize Ximalobster. Each step guides you through key configurations.",
     "step1": "Create or select an isolated workspace",
     "step2": "Prepare the Python environment (built-in or system)",
     "installTitle": "Install",
@@ -736,7 +736,7 @@
   },
   "connect": {
     "title": "Connect to Remote Service",
-    "hint": "Enter the address of a running OpenAkita service (default port 18900)",
+    "hint": "Enter the address of a running Ximalobster service (default port 18900)",
     "address": "Service Address",
     "testing": "Testing connection...",
     "success": "Connected to service",
@@ -747,7 +747,7 @@
   },
   "conflict": {
     "title": "Existing Service Detected",
-    "message": "An OpenAkita service is already running on local port 18900",
+    "message": "A Ximalobster service is already running on local port 18900",
     "detail": "PID: {{pid}} · Version: {{version}}",
     "connectExisting": "Connect to Existing",
     "stopAndRestart": "Stop & Restart",
@@ -760,7 +760,7 @@
     "pipCommand": "pip install --upgrade openakita",
     "copied": "Copied to clipboard",
     "newRelease": "New Version Available",
-    "newReleaseDetail": "OpenAkita {{latest}} is available (current: {{current}})",
+    "newReleaseDetail": "Ximalobster {{latest}} is available (current: {{current}})",
     "viewRelease": "View Release",
     "dismiss": "Later",
     "checking": "Checking for updates...",
@@ -775,19 +775,19 @@
   "onboarding": {
     "defaultWorkspace": "Default Workspace",
     "welcome": {
-      "title": "Welcome to OpenAkita",
+      "title": "Welcome to Ximalobster",
       "desc": "Your all-in-one self-evolving AI Agent. Let's get you set up quickly.",
       "start": "Get Started",
       "advancedLink": "Advanced user? Use the full configuration wizard",
       "envWarning": "Environment issues detected",
       "envCleaned": "Environment cleaned up",
       "serviceDetected": "Running service detected",
-      "serviceDetectedDesc": "A local OpenAkita service is already running (version {{version}}). You can connect to it directly.",
+      "serviceDetectedDesc": "A local Ximalobster service is already running (version {{version}}). You can connect to it directly.",
       "connectExisting": "Connect to existing service",
       "continueSetup": "Continue setup (ignore)",
       "customRootToggle": "Custom data storage path",
       "customRootHint": "Data is stored in your home directory by default. Change this to store data on another drive.",
-      "customRootPlaceholder": "e.g. D:\\MyData\\.openakita",
+      "customRootPlaceholder": "e.g. D:\\MyData\\.ximalobster",
       "customRootApply": "Apply",
       "customRootApplied": "Custom storage path set: {{path}}",
       "customRootDefault": "Use default path",
@@ -798,7 +798,7 @@
     "skipHint": "You can skip this step and complete the setup later in the Settings panel.",
     "llm": {
       "title": "Configure AI Model",
-      "desc": "Add at least one LLM endpoint (API Key). OpenAkita will use it to think and act.",
+      "desc": "Add at least one LLM endpoint (API Key). Ximalobster will use it to think and act.",
       "skip": "Skip, configure later"
     },
     "im": {
@@ -846,8 +846,8 @@
     },
     "done": {
       "title": "Setup Complete!",
-      "desc": "OpenAkita is ready. Begin your AI journey.",
-      "enter": "Enter OpenAkita",
+      "desc": "Ximalobster is ready. Begin your AI journey.",
+      "enter": "Enter Ximalobster",
       "someErrors": "Some issues occurred",
       "errorsHint": "You can reinstall failed modules in settings."
     },
@@ -855,7 +855,7 @@
     "agreement": {
       "title": "Risk Acknowledgment",
       "subtitle": "Please read the following carefully before proceeding",
-      "content": "OpenAkita is an AI Agent software powered by Large Language Models (LLMs). Before using it, you need to understand and accept the following:\n\n1. Behavior Is Not Fully Predictable\nThe AI Agent's behavior is driven by underlying LLMs, which produce probabilistic and non-deterministic outputs. Even with identical inputs, the Agent may produce different results, including but not limited to: unexpected file operations, unintended messages, and unintended tool invocations.\n\n2. Supervision Is Required\nYou are responsible for supervising the AI Agent's actions at all times. For tool calls that require approval (such as file deletion, system command execution, message sending, etc.), review the operation details carefully before approving. It is strongly recommended NOT to enable auto-confirm mode without active supervision.\n\n3. Potential Risks\nThe AI Agent may cause: data loss or corruption (e.g., accidental file deletion, overwriting important data), sending inappropriate messages (e.g., incorrect content through IM channels), executing dangerous system commands, generating unexpected API calls and costs, and other unforeseen side effects.\n\n4. Disclaimer of Liability\nOpenAkita is an open-source software project provided \"AS IS\" without warranty of any kind, express or implied. The project maintainers and contributors shall not be liable for any direct, indirect, incidental, special, or consequential damages arising from the use of this software. You assume all risks associated with using this software.\n\n5. Data Security\nYour conversation content, configuration data, and tool call records may be sent to third-party LLM service providers. Do not share sensitive personal information, passwords, keys, or other confidential data in conversations unless you fully understand and accept the associated risks.",
+      "content": "Ximalobster is an AI Agent software powered by Large Language Models (LLMs). Before using it, you need to understand and accept the following:\n\n1. Behavior Is Not Fully Predictable\nThe AI Agent's behavior is driven by underlying LLMs, which produce probabilistic and non-deterministic outputs. Even with identical inputs, the Agent may produce different results, including but not limited to: unexpected file operations, unintended messages, and unintended tool invocations.\n\n2. Supervision Is Required\nYou are responsible for supervising the AI Agent's actions at all times. For tool calls that require approval (such as file deletion, system command execution, message sending, etc.), review the operation details carefully before approving. It is strongly recommended NOT to enable auto-confirm mode without active supervision.\n\n3. Potential Risks\nThe AI Agent may cause: data loss or corruption (e.g., accidental file deletion, overwriting important data), sending inappropriate messages (e.g., incorrect content through IM channels), executing dangerous system commands, generating unexpected API calls and costs, and other unforeseen side effects.\n\n4. Disclaimer of Liability\nXimalobster is an open-source software project provided \"AS IS\" without warranty of any kind, express or implied. The project maintainers and contributors shall not be liable for any direct, indirect, incidental, special, or consequential damages arising from the use of this software. You assume all risks associated with using this software.\n\n5. Data Security\nYour conversation content, configuration data, and tool call records may be sent to third-party LLM service providers. Do not share sensitive personal information, passwords, keys, or other confidential data in conversations unless you fully understand and accept the associated risks.",
       "confirmLabel": "Type \"I ACKNOWLEDGE\" below to confirm you have read and understood the above:",
       "confirmPlaceholder": "Type: I ACKNOWLEDGE",
       "confirmText": "I ACKNOWLEDGE",
@@ -1007,7 +1007,7 @@
     "pythonHint": "Check embedded Python, venv, and openakita package status. Supports one-click repair.",
     "pyEmbedded": "Embedded Python",
     "pyVenv": "Virtual Env (venv)",
-    "pyOpenakita": "OpenAkita Backend",
+    "pyOpenakita": "Ximalobster Backend",
     "pyNoDiag": "Click \"Diagnose\" to check current environment",
     "diagnose": "Diagnose",
     "repair": "Repair",

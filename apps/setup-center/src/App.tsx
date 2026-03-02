@@ -9233,7 +9233,7 @@ export function App() {
             <div>Desktop v{desktopVersion}{import.meta.env.VITE_PREVIEW_BUILD === "true" && <span style={{ marginLeft: 6, color: "#e8a735", fontWeight: 600, opacity: 1 }}>预览版</span>}</div>
             {backendVersion && <div>Backend v{backendVersion}</div>}
             {!backendVersion && serviceStatus?.running && <div>Backend: -</div>}
-            <div style={{ marginTop: 4, display: "flex", alignItems: "center", gap: 10 }}>
+            <div style={{ marginTop: 4, display: "flex", alignItems: "center", gap: 10, display: 'none' }}>
               <a
                 href="https://openakita.ai"
                 style={{ color: "var(--accent, #5B8DEF)", textDecoration: "none", opacity: 1 }}

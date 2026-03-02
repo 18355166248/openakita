@@ -51,7 +51,7 @@ struct PlatformInfo {
 
 fn default_openakita_root() -> String {
     let home = home_dir().unwrap_or_else(|| std::path::PathBuf::from("."));
-    home.join(".openakita").to_string_lossy().to_string()
+    home.join(".ximalobster").to_string_lossy().to_string()
 }
 
 #[tauri::command]
@@ -107,7 +107,7 @@ struct WorkspaceMeta {
 fn default_root_dir() -> PathBuf {
     home_dir()
         .unwrap_or_else(|| PathBuf::from("."))
-        .join(".openakita")
+        .join(".ximalobster")
 }
 
 #[derive(Debug, Serialize, Deserialize, Default)]
@@ -182,7 +182,7 @@ fn run_dir() -> PathBuf {
     openakita_root_dir().join("run")
 }
 
-/// 安装配置日志目录：~/.openakita/logs/
+/// 安装配置日志目录：~/.ximalobster/logs/
 fn setup_logs_dir() -> PathBuf {
     openakita_root_dir().join("logs")
 }
@@ -719,14 +719,14 @@ fn set_custom_root_dir(path: Option<String>, migrate: bool) -> Result<RootDirInf
     if let Some(ref p) = clean_path {
         let target = PathBuf::from(p);
         if !target.is_absolute() {
-            return Err("请使用绝对路径（如 D:\\MyData\\.openakita 或 /data/openakita）".into());
+            return Err("请使用绝对路径（如 D:\\MyData\\.ximalobster 或 /data/ximalobster）".into());
         }
         if target.exists() && !target.is_dir() {
             return Err("指定的路径已存在但不是目录".into());
         }
         fs::create_dir_all(&target).map_err(|e| format!("无法创建目标目录: {e}"))?;
         // 验证目录可写
-        let test_file = target.join(".openakita_write_test");
+        let test_file = target.join(".ximalobster_write_test");
         fs::write(&test_file, "test").map_err(|e| format!("目标目录无写入权限: {e}"))?;
         let _ = fs::remove_file(&test_file);
     }
@@ -5296,7 +5296,7 @@ fn cli_bin_dir() -> PathBuf {
     }
     #[cfg(not(target_os = "windows"))]
     {
-        // macOS / Linux: 使用 ~/.openakita/bin/
+        // macOS / Linux: 使用 ~/.ximalobster/bin/
         openakita_root_dir().join("bin")
     }
 }

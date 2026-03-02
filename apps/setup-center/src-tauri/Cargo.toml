@@ -1,8 +1,8 @@
 [package]
 name = "openakita-setup-center"
 version = "1.25.1"
-description = "OpenAkita Setup Center"
-authors = ["OpenAkita"]
+description = "XimaLobster Setup Center"
+authors = ["XimaLobster"]
 edition = "2021"
 
 [build-dependencies]

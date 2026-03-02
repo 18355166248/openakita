@@ -459,7 +459,7 @@ class TelegramAdapter(ChannelAdapter):
 
         # 已配对或不需要配对
         await message.reply_text(
-            "👋 你好！我是 OpenAkita，一个全能AI助手。\n\n"
+            "👋 你好！我是 XimaLobster，一个全能AI助手。\n\n"
             "发送消息开始对话，我可以帮你：\n"
             "- 回答问题\n"
             "- 执行任务\n"

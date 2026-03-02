@@ -121,7 +121,7 @@ class TestUserSendsFirstMessage:
     """Simulate: user opens app → types first message → gets response."""
 
     async def test_simple_greeting(self, user_agent, mock_client):
-        mock_client.preset_response("你好！我是 OpenAkita，有什么可以帮你的？")
+        mock_client.preset_response("你好！我是 XimaLobster，有什么可以帮你的？")
 
         response = await user_agent.chat("你好")
 

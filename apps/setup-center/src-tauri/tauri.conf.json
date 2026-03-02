@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "OpenAkita Desktop",
+  "productName": "XimaLobster Desktop",
   "version": "1.25.1",
-  "identifier": "com.openakita.setupcenter",
+  "identifier": "com.XimaLobster.setupcenter",
   "build": {
     "beforeDevCommand": "npm run dev",
     "beforeBuildCommand": "npm run build",
@@ -53,7 +53,7 @@
     },
     "windows": [
       {
-        "title": "OpenAkita",
+        "title": "XimaLobster",
         "width": 1100,
         "height": 760,
         "resizable": true

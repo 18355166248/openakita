@@ -1,6 +1,6 @@
 {
   "brand": {
-    "title": "OpenAkita",
+    "title": "Ximalobster",
     "sub": "桌面终端"
   },
   "sidebar": {
@@ -212,7 +212,7 @@
     "degradedAutoClean": "若进程心跳持续超时（约 60 秒），系统将自动清理卡死进程并更新状态。",
     "backendNotRunning": "后端服务未启动",
     "backendNotRunningHint": "聊天、IM 通道、技能等功能需要后端服务运行。点击右侧按钮启动服务。",
-    "backendDied": "OpenAkita 后端服务已停止",
+    "backendDied": "Ximalobster 后端服务已停止",
     "backendDiedDesc": "后端进程已退出，请检查日志或重新启动服务。",
     "stopFailed": "服务仍在运行，可能需要手动关闭进程",
     "troubleshootTitle": "故障排除",
@@ -271,7 +271,7 @@
     "dataRootTitle": "数据存储路径",
     "dataRootHint": "所有工作区、虚拟环境、运行时等数据的根目录。修改后建议勾选「迁移数据」以保留已有内容。",
     "dataRootCurrent": "当前数据目录：{{path}}",
-    "dataRootPlaceholder": "例如：D:\\MyData\\.openakita",
+    "dataRootPlaceholder": "例如：D:\\MyData\\.ximalobster",
     "dataRootApply": "应用",
     "dataRootDefault": "恢复默认",
     "dataRootMigrate": "迁移已有数据到新路径",
@@ -708,7 +708,7 @@
   },
   "welcome": {
     "title": "配置向导",
-    "subtitle": "按以下步骤完成 OpenAkita 的初始化设置，每一步都会引导你完成关键配置。",
+    "subtitle": "按以下步骤完成 Ximalobster 的初始化设置，每一步都会引导你完成关键配置。",
     "step1": "创建或选择一个配置隔离的工作区",
     "step2": "准备 Python 环境（内置或系统 Python）",
     "installTitle": "安装",
@@ -736,7 +736,7 @@
   },
   "connect": {
     "title": "连接远程服务",
-    "hint": "输入正在运行的 OpenAkita 服务地址（默认端口 18900）",
+    "hint": "输入正在运行的 Ximalobster 服务地址（默认端口 18900）",
     "address": "服务地址",
     "testing": "正在测试连接...",
     "success": "已成功连接到服务",
@@ -747,7 +747,7 @@
   },
   "conflict": {
     "title": "检测到已有服务",
-    "message": "本地端口 18900 已有 OpenAkita 服务正在运行",
+    "message": "本地端口 18900 已有 Ximalobster 服务正在运行",
     "detail": "PID: {{pid}} · 版本: {{version}}",
     "connectExisting": "连接已有服务",
     "stopAndRestart": "停止并重启",
@@ -760,7 +760,7 @@
     "pipCommand": "pip install --upgrade openakita",
     "copied": "已复制到剪贴板",
     "newRelease": "发现新版本",
-    "newReleaseDetail": "OpenAkita {{latest}} 已发布（当前 {{current}}）",
+    "newReleaseDetail": "Ximalobster {{latest}} 已发布（当前 {{current}}）",
     "viewRelease": "查看发布页",
     "dismiss": "稍后再说",
     "checking": "检查更新...",
@@ -775,19 +775,19 @@
   "onboarding": {
     "defaultWorkspace": "默认工作区",
     "welcome": {
-      "title": "欢迎使用 OpenAkita",
+      "title": "欢迎使用 Ximalobster",
       "desc": "全能自进化 AI Agent，让我们快速完成初始配置。",
       "start": "开始配置",
       "advancedLink": "高级用户？使用完整配置向导",
       "envWarning": "检测到环境异常",
       "envCleaned": "环境清理完成",
       "serviceDetected": "检测到已运行的服务",
-      "serviceDetectedDesc": "本地已有 OpenAkita 服务在运行（版本 {{version}}），可以直接连接使用。",
+      "serviceDetectedDesc": "本地已有 Ximalobster 服务在运行（版本 {{version}}），可以直接连接使用。",
       "connectExisting": "连接已有服务",
       "continueSetup": "继续配置（忽略）",
       "customRootToggle": "自定义数据存储路径",
       "customRootHint": "默认存储在用户目录下。如需将数据存放到其他磁盘（如 D 盘），可在此修改。",
-      "customRootPlaceholder": "例如：D:\\MyData\\.openakita",
+      "customRootPlaceholder": "例如：D:\\MyData\\.ximalobster",
       "customRootApply": "应用",
       "customRootApplied": "已设置自定义存储路径：{{path}}",
       "customRootDefault": "使用默认路径",
@@ -798,7 +798,7 @@
     "skipHint": "此步骤可以跳过，稍后在程序「配置」界面中完成设置。",
     "llm": {
       "title": "配置 AI 模型",
-      "desc": "添加至少一个 LLM 端点（API Key），OpenAkita 将使用它来思考和行动。",
+      "desc": "添加至少一个 LLM 端点（API Key），Ximalobster 将使用它来思考和行动。",
       "skip": "跳过，稍后配置"
     },
     "im": {
@@ -846,8 +846,8 @@
     },
     "done": {
       "title": "配置完成！",
-      "desc": "OpenAkita 已准备就绪，开始你的 AI 之旅吧。",
-      "enter": "进入 OpenAkita",
+      "desc": "Ximalobster 已准备就绪，开始你的 AI 之旅吧。",
+      "enter": "进入 Ximalobster",
       "someErrors": "部分操作出现问题",
       "errorsHint": "你可以在设置中重新安装失败的模块。"
     },
@@ -855,7 +855,7 @@
     "agreement": {
       "title": "使用风险须知",
       "subtitle": "在继续之前，请仔细阅读以下内容",
-      "content": "OpenAkita 是一款基于大语言模型（LLM）驱动的 AI Agent 软件。在使用前，你需要了解并接受以下事项：\n\n1. 行为不可完全预测\nAI Agent 的行为受底层大语言模型驱动，其输出具有概率性和不确定性。即使在相同输入下，Agent 也可能产生不同的行为结果，包括但不限于执行非预期的文件操作、发送非预期的消息、调用非预期的工具等。\n\n2. 使用过程必须监督\n你有责任在使用过程中保持对 AI Agent 行为的监督。对于需要审批的工具调用（如文件删除、系统命令执行、消息发送等），请在确认操作内容合理后再批准执行。强烈建议不要在无人监督的情况下开启自动确认模式。\n\n3. 可能造成的风险\nAI Agent 在执行任务时可能导致：数据丢失或损坏（如误删文件、覆盖重要数据）、发送不当消息（如通过 IM 通道发送错误内容）、执行危险系统命令、产生非预期的 API 调用和费用消耗、以及其他无法预见的副作用。\n\n4. 免责声明\nOpenAkita 是一个开源软件项目，按「现状」提供，不附带任何形式的明示或暗示担保。项目维护者和贡献者不对因使用本软件而产生的任何直接、间接、偶然、特殊或后果性损害承担责任。你应当自行承担使用本软件的全部风险。\n\n5. 数据安全\n你的对话内容、配置信息和工具调用记录可能被发送至第三方 LLM 服务商。请勿在对话中提供敏感的个人信息、密码、密钥等机密数据，除非你充分了解并接受相关风险。",
+      "content": "Ximalobster 是一款基于大语言模型（LLM）驱动的 AI Agent 软件。在使用前，你需要了解并接受以下事项：\n\n1. 行为不可完全预测\nAI Agent 的行为受底层大语言模型驱动，其输出具有概率性和不确定性。即使在相同输入下，Agent 也可能产生不同的行为结果，包括但不限于执行非预期的文件操作、发送非预期的消息、调用非预期的工具等。\n\n2. 使用过程必须监督\n你有责任在使用过程中保持对 AI Agent 行为的监督。对于需要审批的工具调用（如文件删除、系统命令执行、消息发送等），请在确认操作内容合理后再批准执行。强烈建议不要在无人监督的情况下开启自动确认模式。\n\n3. 可能造成的风险\nAI Agent 在执行任务时可能导致：数据丢失或损坏（如误删文件、覆盖重要数据）、发送不当消息（如通过 IM 通道发送错误内容）、执行危险系统命令、产生非预期的 API 调用和费用消耗、以及其他无法预见的副作用。\n\n4. 免责声明\nXimalobster 是一个开源软件项目，按「现状」提供，不附带任何形式的明示或暗示担保。项目维护者和贡献者不对因使用本软件而产生的任何直接、间接、偶然、特殊或后果性损害承担责任。你应当自行承担使用本软件的全部风险。\n\n5. 数据安全\n你的对话内容、配置信息和工具调用记录可能被发送至第三方 LLM 服务商。请勿在对话中提供敏感的个人信息、密码、密钥等机密数据，除非你充分了解并接受相关风险。",
       "confirmLabel": "请在下方输入「我已知晓」以确认你已阅读并理解上述内容：",
       "confirmPlaceholder": "请输入：我已知晓",
       "confirmText": "我已知晓",
@@ -1007,7 +1007,7 @@
     "pythonHint": "检测内置 Python、venv、openakita 包的安装状态，支持一键修复",
     "pyEmbedded": "内置 Python",
     "pyVenv": "虚拟环境 (venv)",
-    "pyOpenakita": "OpenAkita 后端",
+    "pyOpenakita": "Ximalobster 后端",
     "pyNoDiag": "点击「诊断」检测当前环境状态",
     "diagnose": "诊断",
     "repair": "一键修复",

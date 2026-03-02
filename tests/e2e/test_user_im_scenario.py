@@ -157,7 +157,7 @@ class TestFullIMConversation:
 
         conversation = [
             ("user", "你好"),
-            ("assistant", "你好！我是 OpenAkita。"),
+            ("assistant", "你好！我是 XimaLobster。"),
             ("user", "你能做什么？"),
             ("assistant", "我可以帮你搜索、记忆、执行任务等。"),
             ("user", "帮我记住我的生日是3月15日"),

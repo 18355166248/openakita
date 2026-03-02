@@ -114,7 +114,7 @@ class TestDesktopUserChatFlow:
 
     async def test_simple_message_returns_sse_stream(self, api_client):
         client, mock_llm = api_client
-        mock_llm.preset_response("你好！欢迎使用 OpenAkita。")
+        mock_llm.preset_response("你好！欢迎使用 XimaLobster。")
 
         resp = await client.post("/api/chat", json={"message": "你好"})
 
