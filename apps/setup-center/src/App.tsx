@@ -1149,8 +1149,7 @@ export function App() {
     (async () => {
       try {
         const firstRun = await invoke<boolean>("is_first_run");
-        console.log("🚀 ~ App ~ firstRun:", firstRun)
-        if (!firstRun) {
+        if (firstRun) {
           await obProbeRunningService();
           setView("onboarding");
           obLoadEnvCheck();
