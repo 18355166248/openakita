@@ -2293,7 +2293,11 @@ fn main() {
             append_onboarding_log_lines,
             register_cli,
             unregister_cli,
-            get_cli_status
+            get_cli_status,
+            open_cas_login_window,
+            cas_login_notify,
+            get_auth_key,
+            save_auth_key
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -5788,6 +5792,156 @@ fn unregister_cli() -> Result<String, String> {
     let _ = std::fs::remove_file(&config_path);
 
     Ok("CLI 命令已注销".into())
+}
+
+// ── CAS 统一认证 ──
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct AuthKeyData {
+    key: String,
+    ops_id: String,
+    created_at: u64,
+}
+
+fn auth_key_file_path() -> PathBuf {
+    openakita_root_dir().join("auth_key.json")
+}
+
+#[tauri::command]
+fn get_auth_key() -> Result<Option<AuthKeyData>, String> {
+    let path = auth_key_file_path();
+    if !path.exists() {
+        return Ok(None);
+    }
+    let content = fs::read_to_string(&path).map_err(|e| format!("读取 auth_key 失败: {e}"))?;
+    let data: AuthKeyData =
+        serde_json::from_str(&content).map_err(|e| format!("解析 auth_key 失败: {e}"))?;
+    if data.key.is_empty() {
+        return Ok(None);
+    }
+    Ok(Some(data))
+}
+
+#[tauri::command]
+fn save_auth_key(key: String, ops_id: String) -> Result<(), String> {
+    let path = auth_key_file_path();
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent).map_err(|e| format!("创建目录失败: {e}"))?;
+    }
+    let now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_secs();
+    let data = AuthKeyData { key, ops_id, created_at: now };
+    let content = serde_json::to_string_pretty(&data).map_err(|e| format!("序列化失败: {e}"))?;
+    fs::write(&path, content).map_err(|e| format!("写入 auth_key 失败: {e}"))?;
+    Ok(())
+}
+
+/// 登录成功检测 + opsId 获取脚本（每次页面加载后通过 eval_script 注入）
+fn cas_detect_script() -> &'static str {
+    r#"(function () {
+    if (window.__CAS_DETECT_STARTED__) return;
+    window.__CAS_DETECT_STARTED__ = true;
+
+    function _invoke(cmd, args) {
+        try {
+            var ipc = window.__TAURI_INTERNALS__;
+            if (ipc && ipc.invoke) {
+                ipc.invoke(cmd, args);
+            }
+        } catch (e) {}
+    }
+
+    function _doGetOpsId() {
+        var opsIdUrl = 'https://ops.ximalaya.com/business-product-admin-web/opsId';
+        fetch(opsIdUrl, { credentials: 'include' })
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                var id = '';
+                if (data) {
+                    id = data.opsId || data.ops_id || data.data || data.result || data.id || '';
+                    if (typeof id !== 'string') id = String(id);
+                }
+                _invoke('cas_login_notify', { opsId: id });
+            })
+            .catch(function () {
+                _invoke('cas_login_notify', { opsId: '' });
+            });
+    }
+
+    var _done = false;
+    function _check() {
+        if (_done) return;
+        try {
+            var text = document.body ? (document.body.innerText || document.body.textContent || '') : '';
+            // 登录成功后重定向到新页面，检测页面中是否包含「店铺管理」
+            if (text.indexOf('\u5e97\u94fa\u7ba1\u7406') >= 0) {
+                _done = true;
+                _doGetOpsId();
+            }
+        } catch (e) {}
+    }
+
+    var _t = setInterval(function () {
+        _check();
+        if (_done) clearInterval(_t);
+    }, 800);
+
+    if (window.MutationObserver) {
+        var obs = new MutationObserver(_check);
+        obs.observe(document.documentElement, { childList: true, subtree: true });
+    }
+})();"#
+}
+
+/// 打开 CAS 登录窗口，页面每次加载完成后注入检测脚本
+#[tauri::command]
+async fn open_cas_login_window(app: tauri::AppHandle) -> Result<(), String> {
+    // 如果窗口已存在，直接聚焦并返回，避免重复创建同名窗口报错
+    if let Some(existing) = app.get_webview_window("cas-login") {
+        let _ = existing.show();
+        let _ = existing.unminimize();
+        let _ = existing.set_focus();
+        return Ok(());
+    }
+
+    let url: tauri::WebviewUrl = tauri::WebviewUrl::External(
+        "https://ops.ximalaya.com/gatekeeper/ops-shop-admin/"
+            .parse()
+            .map_err(|e| format!("URL 解析失败: {e}"))?,
+    );
+
+    // 每次页面导航完成后注入检测脚本（initialization_script 对外部 URL 不生效）
+    let script = cas_detect_script().to_string();
+    tauri::WebviewWindowBuilder::new(&app, "cas-login", url)
+        .title("CAS 统一认证登录")
+        .inner_size(960.0, 720.0)
+        .resizable(true)
+        .on_page_load(move |webview, _payload| {
+            let _ = webview.eval(&script);
+        })
+        .build()
+        .map_err(|e| format!("打开登录窗口失败: {e}"))?;
+
+    Ok(())
+}
+
+/// 接收来自 CAS 登录窗口注入脚本的回调，关闭登录窗口并通知主窗口
+#[tauri::command]
+async fn cas_login_notify(app: tauri::AppHandle, ops_id: String) -> Result<(), String> {
+    // 关闭登录窗口
+    if let Some(win) = app.get_webview_window("cas-login") {
+        let _ = win.close();
+    }
+    // 向主窗口发送事件
+    if let Some(main_win) = app.get_webview_window("main") {
+        main_win
+            .emit("cas_login_result", &ops_id)
+            .map_err(|e| format!("事件发送失败: {e}"))?;
+    }
+    Ok(())
 }
 
 #[tauri::command]

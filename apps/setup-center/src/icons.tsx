@@ -603,6 +603,14 @@ export function LogoQQ({ size = 20 }: { size?: number }) {
   );
 }
 
+export function IconKey(p: IconProps = {}) {
+  return svg(p, <>
+    <circle cx="7.5" cy="15.5" r="5.5" />
+    <path d="M21 2l-9.6 9.6" />
+    <path d="M15.5 7.5l3 3L22 7l-3-3" />
+  </>);
+}
+
 export function IconBug(p: IconProps = {}) {
   return svg(p, <>
     <path d="M8 2l1.88 1.88M14.12 3.88L16 2" />

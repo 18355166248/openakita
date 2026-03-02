@@ -16,6 +16,7 @@ import { MemoryView } from "./views/MemoryView";
 import { AgentDashboardView } from "./views/AgentDashboardView";
 import { AgentManagerView } from "./views/AgentManagerView";
 import { FeedbackModal } from "./views/FeedbackModal";
+import { AuthKeyView } from "./views/AuthKeyView";
 import type { EndpointSummary as EndpointSummaryType } from "./types";
 import {
   IconChat, IconIM, IconSkills, IconStatus, IconConfig,
@@ -24,7 +25,7 @@ import {
   IconEdit, IconTrash, IconEye, IconEyeOff, IconInfo, IconClipboard,
   DotGreen, DotGray, DotYellow, DotRed,
   IconBook, IconZap, IconGear, IconMoon, IconSun, IconLaptop, IconPlug, IconCalendar,
-  IconBug, IconBrain, IconGitHub, IconGitee, IconUsers, IconBot,
+  IconBug, IconBrain, IconGitHub, IconGitee, IconUsers, IconBot, IconKey,
   LogoTelegram, LogoFeishu, LogoWework, LogoDingtalk, LogoQQ,
 } from "./icons";
 import logoUrl from "./assets/logo.png";
@@ -1024,7 +1025,7 @@ export function App() {
     [t],
   );
 
-  const [view, setView] = useState<"wizard" | "status" | "chat" | "skills" | "im" | "onboarding" | "modules" | "token_stats" | "mcp" | "scheduler" | "memory" | "dashboard" | "agent_manager">("wizard");
+  const [view, setView] = useState<"wizard" | "status" | "chat" | "skills" | "im" | "onboarding" | "modules" | "token_stats" | "mcp" | "scheduler" | "memory" | "dashboard" | "agent_manager" | "auth_key">("wizard");
   const [appInitializing, setAppInitializing] = useState(true); // 首次加载检测中，防止闪烁
   const [configExpanded, setConfigExpanded] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -1056,7 +1057,7 @@ export function App() {
   }, [stepId]);
 
   // ── Onboarding Wizard (首次安装引导) ──
-  type OnboardingStep = "ob-welcome" | "ob-agreement" | "ob-llm" | "ob-im" | "ob-modules" | "ob-cli" | "ob-progress" | "ob-done";
+  type OnboardingStep = "ob-welcome" | "ob-agreement" | "ob-login" | "ob-llm" | "ob-im" | "ob-modules" | "ob-cli" | "ob-progress" | "ob-done";
   type ModuleInfo = { id: string; name: string; description: string; installed: boolean; bundled: boolean; sizeMb: number; category: string };
   const [obStep, setObStep] = useState<OnboardingStep>("ob-welcome");
   const [obModules, setObModules] = useState<ModuleInfo[]>([]);
@@ -1148,7 +1149,8 @@ export function App() {
     (async () => {
       try {
         const firstRun = await invoke<boolean>("is_first_run");
-        if (firstRun) {
+        console.log("🚀 ~ App ~ firstRun:", firstRun)
+        if (!firstRun) {
           await obProbeRunningService();
           setView("onboarding");
           obLoadEnvCheck();
@@ -6851,7 +6853,7 @@ export function App() {
       }
       setBusy(t("adv.backupExporting"));
       try {
-        const apiPort = serviceStatus?.port || 18900;
+        const apiPort = serviceStatus?.pid || 18900;
         const result = await invoke<{ status: string; path?: string; filename?: string; size_bytes?: number }>(
           "export_workspace_backup",
           {
@@ -6877,7 +6879,7 @@ export function App() {
         if (!zipPath) return;
         if (!confirm(t("adv.backupImportConfirm"))) return;
         setBusy(t("adv.backupExporting"));
-        const apiPort = serviceStatus?.port || 18900;
+        const apiPort = serviceStatus?.pid || 18900;
         const result = await invoke<{ status: string; restored_count?: number }>(
           "import_workspace_backup",
           { workspaceId: currentWorkspaceId, zipPath, apiPort }
@@ -7639,7 +7641,7 @@ export function App() {
               {t("config.applyRestart")}
             </button>
           </div>
-          
+
         </div>
       </>
     );
@@ -8071,7 +8073,7 @@ export function App() {
   }
 
   function renderOnboarding() {
-    const obStepDots = ["ob-welcome", "ob-agreement", "ob-llm", "ob-im", "ob-modules", "ob-cli", "ob-progress", "ob-done"] as OnboardingStep[];
+    const obStepDots = ["ob-welcome", "ob-agreement", "ob-login", "ob-llm", "ob-im", "ob-modules", "ob-cli", "ob-progress", "ob-done"] as OnboardingStep[];
     const obCurrentIdx = obStepDots.indexOf(obStep);
 
     const stepIndicator = (
@@ -8363,13 +8365,36 @@ export function App() {
                   onClick={() => {
                     if (obAgreementInput.trim() === t("onboarding.agreement.confirmText")) {
                       setObAgreementError(false);
-                      setObStep("ob-llm");
+                      setObStep("ob-login");
                     } else {
                       setObAgreementError(true);
                     }
                   }}
                 >
                   {t("onboarding.agreement.proceed")}
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+
+      case "ob-login":
+        return (
+          <div className="obPage">
+            <div className="obContent">
+              <h2 className="obStepTitle">{t("onboarding.login.title") || "身份认证"}</h2>
+              <p className="obStepDesc">{t("onboarding.login.desc") || "通过 CAS 统一认证登录，获取你的身份 Key，用于后续 API 请求的身份验证。"}</p>
+              <AuthKeyView />
+            </div>
+            <div className="obFooter">
+              {stepIndicator}
+              <div className="obFooterBtns">
+                <button onClick={() => setObStep("ob-agreement")}>{t("config.prev")}</button>
+                <button
+                  className="btnPrimary"
+                  onClick={() => setObStep("ob-llm")}
+                >
+                  {t("config.next")}
                 </button>
               </div>
             </div>
@@ -8388,7 +8413,7 @@ export function App() {
             <div className="obFooter">
               {stepIndicator}
               <div className="obFooterBtns">
-                <button onClick={() => setObStep("ob-agreement")}>{t("config.prev")}</button>
+                <button onClick={() => setObStep("ob-login")}>{t("config.prev")}</button>
                 {savedEndpoints.length > 0 ? (
                   <button className="btnPrimary" onClick={() => setObStep("ob-im")}>
                     {t("config.next")}
@@ -8846,6 +8871,9 @@ export function App() {
         </div>
       );
     }
+    if (view === "auth_key") {
+      return <AuthKeyView visible />;
+    }
     if (view === "dashboard") {
       return (
         <AgentDashboardView
@@ -9093,6 +9121,9 @@ export function App() {
           </div>
           <div className={`navItem ${view === "memory" ? "navItemActive" : ""}`} onClick={() => setView("memory")} role="button" tabIndex={0} title={t("sidebar.memory")} style={disabledViews.includes("memory") ? { opacity: 0.4 } : undefined}>
             <IconBrain size={16} /> {!sidebarCollapsed && <span>{t("sidebar.memory")} <sup style={{ fontSize: 9, color: "var(--primary, #3b82f6)", fontWeight: 600 }}>Beta</sup></span>}
+          </div>
+          <div className={`navItem ${view === "auth_key" ? "navItemActive" : ""}`} onClick={() => setView("auth_key")} role="button" tabIndex={0} title="身份认证 Key">
+            <IconKey size={16} /> {!sidebarCollapsed && <span>身份认证</span>}
           </div>
           {/* 模块页面已隐藏，功能保留但不在侧边栏展示 */}
           <div className={`navItem ${view === "status" ? "navItemActive" : ""}`} onClick={async () => { setView("status"); try { await refreshStatus(undefined, undefined, true); } catch { /* ignore */ } }} role="button" tabIndex={0} title={t("sidebar.status")}>

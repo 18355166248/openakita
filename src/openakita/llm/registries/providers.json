@@ -1,5 +1,17 @@
 [
   {
+    "name": "喜马拉雅",
+    "slug": "ximalaya",
+    "api_type": "openai",
+    "default_base_url": "https://api.ximalaya.com/v1",
+    "api_key_env_suggestion": "XIMALAYA_API_KEY",
+    "supports_model_list": true,
+    "supports_capability_api": false,
+    "registry_class": "XimalayaRegistry",
+    "requires_api_key": true,
+    "is_local": false
+  },
+  {
     "name": "Ollama (本地)",
     "slug": "ollama",
     "api_type": "openai",

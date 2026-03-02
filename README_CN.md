@@ -396,8 +396,8 @@ OpenAkita 对国内用户做了全面优化：
 </table>
 
 <p align="center">
-  <a href="https://discord.gg/vFwxNVNH">Discord</a> · 
-  <a href="https://x.com/openakita">X (Twitter)</a> · 
+  <a href="https://discord.gg/vFwxNVNH">Discord</a> ·
+  <a href="https://x.com/openakita">X (Twitter)</a> ·
   <a href="mailto:zacon365@gmail.com">Email</a>
 </p>
 
