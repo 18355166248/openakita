@@ -42,6 +42,7 @@ echo "  Copied to: $TARGET_DIR"
 echo ""
 echo "[3/3] Building Tauri app..."
 cd "$SETUP_CENTER_DIR"
+unset CI
 npm run tauri build
 
 echo ""

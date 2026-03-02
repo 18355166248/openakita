@@ -6026,25 +6026,25 @@ export function App() {
           </>
         ),
       },
-      {
-        title: t("config.imWework"),
-        appType: t("config.imTypeSmartBot"),
-        logo: <LogoWework size={22} />,
-        enabledKey: "WEWORK_ENABLED",
-        docUrl: "https://work.weixin.qq.com/",
-        needPublicIp: true,
-        body: (
-          <>
-            <FieldText k="WEWORK_CORP_ID" label="Corp ID" help={t("config.imWeworkCorpIdHelp")} />
-            <FieldText k="WEWORK_TOKEN" label="Callback Token" help={t("config.imWeworkTokenHelp")} />
-            <FieldText k="WEWORK_ENCODING_AES_KEY" label="EncodingAESKey" type="password" help={t("config.imWeworkAesKeyHelp")} />
-            <FieldText k="WEWORK_CALLBACK_PORT" label={t("config.imCallbackPort")} placeholder="9880" />
-            <div className="fieldHint" style={{ fontSize: 12, color: "var(--text3)", margin: "4px 0 0 0", lineHeight: 1.6 }}>
-              💡 {t("config.imWeworkCallbackUrlHint")}<code style={{ background: "var(--bg2)", padding: "1px 5px", borderRadius: 4, fontSize: 11 }}>http://your-domain:9880/callback</code>
-            </div>
-          </>
-        ),
-      },
+      // {
+      //   title: t("config.imWework"),
+      //   appType: t("config.imTypeSmartBot"),
+      //   logo: <LogoWework size={22} />,
+      //   enabledKey: "WEWORK_ENABLED",
+      //   docUrl: "https://work.weixin.qq.com/",
+      //   needPublicIp: true,
+      //   body: (
+      //     <>
+      //       <FieldText k="WEWORK_CORP_ID" label="Corp ID" help={t("config.imWeworkCorpIdHelp")} />
+      //       <FieldText k="WEWORK_TOKEN" label="Callback Token" help={t("config.imWeworkTokenHelp")} />
+      //       <FieldText k="WEWORK_ENCODING_AES_KEY" label="EncodingAESKey" type="password" help={t("config.imWeworkAesKeyHelp")} />
+      //       <FieldText k="WEWORK_CALLBACK_PORT" label={t("config.imCallbackPort")} placeholder="9880" />
+      //       <div className="fieldHint" style={{ fontSize: 12, color: "var(--text3)", margin: "4px 0 0 0", lineHeight: 1.6 }}>
+      //         💡 {t("config.imWeworkCallbackUrlHint")}<code style={{ background: "var(--bg2)", padding: "1px 5px", borderRadius: 4, fontSize: 11 }}>http://your-domain:9880/callback</code>
+      //       </div>
+      //     </>
+      //   ),
+      // },
       {
         title: t("config.imDingtalk"),
         appType: t("config.imTypeInternalApp"),
@@ -6059,55 +6059,55 @@ export function App() {
           </>
         ),
       },
-      {
-        title: "QQ 机器人",
-        appType: `${t("config.imTypeQQBot")} (${(envDraft["QQBOT_MODE"] || "websocket") === "webhook" ? "Webhook" : "WebSocket"})`,
-        logo: <LogoQQ size={22} />,
-        enabledKey: "QQBOT_ENABLED",
-        docUrl: "https://bot.q.qq.com/wiki/develop/api-v2/",
-        needPublicIp: false,
-        body: (
-          <>
-            <FieldText k="QQBOT_APP_ID" label="AppID" placeholder="q.qq.com 开发设置" />
-            <FieldText k="QQBOT_APP_SECRET" label="AppSecret" type="password" placeholder="q.qq.com 开发设置" />
-            <FieldBool k="QQBOT_SANDBOX" label={t("config.imQQBotSandbox")} />
-            <div style={{ marginTop: 8 }}>
-              <div className="label">{t("config.imQQBotMode")}</div>
-              <div style={{ display: "flex", gap: 6, marginTop: 4 }}>
-                {["websocket", "webhook"].map((m) => (
-                  <button key={m} className={(envDraft["QQBOT_MODE"] || "websocket") === m ? "capChipActive" : "capChip"}
-                    onClick={() => setEnvDraft((d) => ({ ...d, QQBOT_MODE: m }))}>{m === "websocket" ? "WebSocket" : "Webhook"}</button>
-                ))}
-              </div>
-              <div style={{ fontSize: 11, color: "var(--muted)", marginTop: 4 }}>
-                {(envDraft["QQBOT_MODE"] || "websocket") === "websocket"
-                  ? t("config.imQQBotModeWsHint")
-                  : t("config.imQQBotModeWhHint")}
-              </div>
-            </div>
-            {(envDraft["QQBOT_MODE"] === "webhook") && (
-              <>
-                <FieldText k="QQBOT_WEBHOOK_PORT" label={t("config.imQQBotWebhookPort")} placeholder="9890" />
-                <FieldText k="QQBOT_WEBHOOK_PATH" label={t("config.imQQBotWebhookPath")} placeholder="/qqbot/callback" />
-              </>
-            )}
-          </>
-        ),
-      },
-      {
-        title: "OneBot",
-        appType: t("config.imTypeOneBot"),
-        logo: <LogoQQ size={22} />,
-        enabledKey: "ONEBOT_ENABLED",
-        docUrl: "https://github.com/botuniverse/onebot-11",
-        needPublicIp: false,
-        body: (
-          <>
-            <FieldText k="ONEBOT_WS_URL" label="WebSocket URL" placeholder="ws://127.0.0.1:8080" />
-            <FieldText k="ONEBOT_ACCESS_TOKEN" label="Access Token" type="password" placeholder={t("config.imOneBotTokenHint")} />
-          </>
-        ),
-      },
+      // {
+      //   title: "QQ 机器人",
+      //   appType: `${t("config.imTypeQQBot")} (${(envDraft["QQBOT_MODE"] || "websocket") === "webhook" ? "Webhook" : "WebSocket"})`,
+      //   logo: <LogoQQ size={22} />,
+      //   enabledKey: "QQBOT_ENABLED",
+      //   docUrl: "https://bot.q.qq.com/wiki/develop/api-v2/",
+      //   needPublicIp: false,
+      //   body: (
+      //     <>
+      //       <FieldText k="QQBOT_APP_ID" label="AppID" placeholder="q.qq.com 开发设置" />
+      //       <FieldText k="QQBOT_APP_SECRET" label="AppSecret" type="password" placeholder="q.qq.com 开发设置" />
+      //       <FieldBool k="QQBOT_SANDBOX" label={t("config.imQQBotSandbox")} />
+      //       <div style={{ marginTop: 8 }}>
+      //         <div className="label">{t("config.imQQBotMode")}</div>
+      //         <div style={{ display: "flex", gap: 6, marginTop: 4 }}>
+      //           {["websocket", "webhook"].map((m) => (
+      //             <button key={m} className={(envDraft["QQBOT_MODE"] || "websocket") === m ? "capChipActive" : "capChip"}
+      //               onClick={() => setEnvDraft((d) => ({ ...d, QQBOT_MODE: m }))}>{m === "websocket" ? "WebSocket" : "Webhook"}</button>
+      //           ))}
+      //         </div>
+      //         <div style={{ fontSize: 11, color: "var(--muted)", marginTop: 4 }}>
+      //           {(envDraft["QQBOT_MODE"] || "websocket") === "websocket"
+      //             ? t("config.imQQBotModeWsHint")
+      //             : t("config.imQQBotModeWhHint")}
+      //         </div>
+      //       </div>
+      //       {(envDraft["QQBOT_MODE"] === "webhook") && (
+      //         <>
+      //           <FieldText k="QQBOT_WEBHOOK_PORT" label={t("config.imQQBotWebhookPort")} placeholder="9890" />
+      //           <FieldText k="QQBOT_WEBHOOK_PATH" label={t("config.imQQBotWebhookPath")} placeholder="/qqbot/callback" />
+      //         </>
+      //       )}
+      //     </>
+      //   ),
+      // },
+      // {
+      //   title: "OneBot",
+      //   appType: t("config.imTypeOneBot"),
+      //   logo: <LogoQQ size={22} />,
+      //   enabledKey: "ONEBOT_ENABLED",
+      //   docUrl: "https://github.com/botuniverse/onebot-11",
+      //   needPublicIp: false,
+      //   body: (
+      //     <>
+      //       <FieldText k="ONEBOT_WS_URL" label="WebSocket URL" placeholder="ws://127.0.0.1:8080" />
+      //       <FieldText k="ONEBOT_ACCESS_TOKEN" label="Access Token" type="password" placeholder={t("config.imOneBotTokenHint")} />
+      //     </>
+      //   ),
+      // },
     ];
 
     return (
@@ -7350,22 +7350,22 @@ export function App() {
                   </>
                 ),
               },
-              {
-                title: "企业微信（需要 openakita[wework]）",
-                enabledKey: "WEWORK_ENABLED",
-                apply: "https://work.weixin.qq.com/",
-                body: (
-                  <>
-                    <FieldText k="WEWORK_CORP_ID" label="Corp ID" />
-                    <FieldText k="WEWORK_TOKEN" label="回调 Token" placeholder="在企业微信后台「接收消息」设置中获取" />
-                    <FieldText k="WEWORK_ENCODING_AES_KEY" label="EncodingAESKey" placeholder="在企业微信后台「接收消息」设置中获取" type="password" />
-                    <FieldText k="WEWORK_CALLBACK_PORT" label="回调端口" placeholder="9880" />
-                    <div style={{ fontSize: 12, color: "var(--muted)", margin: "4px 0 0 0", lineHeight: 1.6 }}>
-                      💡 企业微信后台「接收消息服务器配置」的 URL 请填：<code style={{ background: "#f5f5f5", padding: "1px 5px", borderRadius: 4, fontSize: 11 }}>http://your-domain:9880/callback</code>
-                    </div>
-                  </>
-                ),
-              },
+              // {
+              //   title: "企业微信（需要 openakita[wework]）",
+              //   enabledKey: "WEWORK_ENABLED",
+              //   apply: "https://work.weixin.qq.com/",
+              //   body: (
+              //     <>
+              //       <FieldText k="WEWORK_CORP_ID" label="Corp ID" />
+              //       <FieldText k="WEWORK_TOKEN" label="回调 Token" placeholder="在企业微信后台「接收消息」设置中获取" />
+              //       <FieldText k="WEWORK_ENCODING_AES_KEY" label="EncodingAESKey" placeholder="在企业微信后台「接收消息」设置中获取" type="password" />
+              //       <FieldText k="WEWORK_CALLBACK_PORT" label="回调端口" placeholder="9880" />
+              //       <div style={{ fontSize: 12, color: "var(--muted)", margin: "4px 0 0 0", lineHeight: 1.6 }}>
+              //         💡 企业微信后台「接收消息服务器配置」的 URL 请填：<code style={{ background: "#f5f5f5", padding: "1px 5px", borderRadius: 4, fontSize: 11 }}>http://your-domain:9880/callback</code>
+              //       </div>
+              //     </>
+              //   ),
+              // },
               {
                 title: "钉钉（需要 openakita[dingtalk]）",
                 enabledKey: "DINGTALK_ENABLED",
@@ -7377,49 +7377,49 @@ export function App() {
                   </>
                 ),
               },
-              {
-                title: "QQ 官方机器人（需要 openakita[qqbot]）",
-                enabledKey: "QQBOT_ENABLED",
-                apply: "https://bot.q.qq.com/wiki/develop/api-v2/",
-                body: (
-                  <>
-                    <FieldText k="QQBOT_APP_ID" label="AppID" placeholder="q.qq.com 开发设置" />
-                    <FieldText k="QQBOT_APP_SECRET" label="AppSecret" type="password" placeholder="q.qq.com 开发设置" />
-                    <FieldBool k="QQBOT_SANDBOX" label={t("config.imQQBotSandbox")} />
-                    <div style={{ marginTop: 8 }}>
-                      <div className="label">{t("config.imQQBotMode")}</div>
-                      <div style={{ display: "flex", gap: 6, marginTop: 4 }}>
-                        {["websocket", "webhook"].map((m) => (
-                          <button key={m} className={(envDraft["QQBOT_MODE"] || "websocket") === m ? "capChipActive" : "capChip"}
-                            onClick={() => setEnvDraft((d) => ({ ...d, QQBOT_MODE: m }))}>{m === "websocket" ? "WebSocket" : "Webhook"}</button>
-                        ))}
-                      </div>
-                      <div style={{ fontSize: 11, color: "var(--muted)", marginTop: 4 }}>
-                        {(envDraft["QQBOT_MODE"] || "websocket") === "websocket"
-                          ? t("config.imQQBotModeWsHint")
-                          : t("config.imQQBotModeWhHint")}
-                      </div>
-                    </div>
-                    {(envDraft["QQBOT_MODE"] === "webhook") && (
-                      <>
-                        <FieldText k="QQBOT_WEBHOOK_PORT" label={t("config.imQQBotWebhookPort")} placeholder="9890" />
-                        <FieldText k="QQBOT_WEBHOOK_PATH" label={t("config.imQQBotWebhookPath")} placeholder="/qqbot/callback" />
-                      </>
-                    )}
-                  </>
-                ),
-              },
-              {
-                title: "OneBot（需要 openakita[onebot] + NapCat/Lagrange）",
-                enabledKey: "ONEBOT_ENABLED",
-                apply: "https://github.com/botuniverse/onebot-11",
-                body: (
-                  <>
-                    <FieldText k="ONEBOT_WS_URL" label="WebSocket URL" placeholder="ws://127.0.0.1:8080" />
-                    <FieldText k="ONEBOT_ACCESS_TOKEN" label="Access Token" type="password" placeholder={t("config.imOneBotTokenHint")} />
-                  </>
-                ),
-              },
+              // {
+              //   title: "QQ 官方机器人（需要 openakita[qqbot]）",
+              //   enabledKey: "QQBOT_ENABLED",
+              //   apply: "https://bot.q.qq.com/wiki/develop/api-v2/",
+              //   body: (
+              //     <>
+              //       <FieldText k="QQBOT_APP_ID" label="AppID" placeholder="q.qq.com 开发设置" />
+              //       <FieldText k="QQBOT_APP_SECRET" label="AppSecret" type="password" placeholder="q.qq.com 开发设置" />
+              //       <FieldBool k="QQBOT_SANDBOX" label={t("config.imQQBotSandbox")} />
+              //       <div style={{ marginTop: 8 }}>
+              //         <div className="label">{t("config.imQQBotMode")}</div>
+              //         <div style={{ display: "flex", gap: 6, marginTop: 4 }}>
+              //           {["websocket", "webhook"].map((m) => (
+              //             <button key={m} className={(envDraft["QQBOT_MODE"] || "websocket") === m ? "capChipActive" : "capChip"}
+              //               onClick={() => setEnvDraft((d) => ({ ...d, QQBOT_MODE: m }))}>{m === "websocket" ? "WebSocket" : "Webhook"}</button>
+              //           ))}
+              //         </div>
+              //         <div style={{ fontSize: 11, color: "var(--muted)", marginTop: 4 }}>
+              //           {(envDraft["QQBOT_MODE"] || "websocket") === "websocket"
+              //             ? t("config.imQQBotModeWsHint")
+              //             : t("config.imQQBotModeWhHint")}
+              //         </div>
+              //       </div>
+              //       {(envDraft["QQBOT_MODE"] === "webhook") && (
+              //         <>
+              //           <FieldText k="QQBOT_WEBHOOK_PORT" label={t("config.imQQBotWebhookPort")} placeholder="9890" />
+              //           <FieldText k="QQBOT_WEBHOOK_PATH" label={t("config.imQQBotWebhookPath")} placeholder="/qqbot/callback" />
+              //         </>
+              //       )}
+              //     </>
+              //   ),
+              // },
+              // {
+              //   title: "OneBot（需要 openakita[onebot] + NapCat/Lagrange）",
+              //   enabledKey: "ONEBOT_ENABLED",
+              //   apply: "https://github.com/botuniverse/onebot-11",
+              //   body: (
+              //     <>
+              //       <FieldText k="ONEBOT_WS_URL" label="WebSocket URL" placeholder="ws://127.0.0.1:8080" />
+              //       <FieldText k="ONEBOT_ACCESS_TOKEN" label="Access Token" type="password" placeholder={t("config.imOneBotTokenHint")} />
+              //     </>
+              //   ),
+              // },
             ].map((c) => {
               const enabled = envGet(envDraft, c.enabledKey, "false").toLowerCase() === "true";
               return (

@@ -53,6 +53,7 @@ echo "  Modules: $TARGET_MODULES_DIR"
 echo ""
 echo "[4/4] Building Tauri app..."
 cd "$SETUP_CENTER_DIR"
+unset CI
 # Full package needs additional modules resource directory
 export TAURI_CONFIG='{"bundle":{"resources":["resources/openakita-server/","resources/modules/"]}}'
 npx tauri build
